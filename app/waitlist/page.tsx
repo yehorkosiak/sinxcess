@@ -1,11 +1,58 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Users, Clock, CheckCircle } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function WaitlistPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      email: formData.get("email") as string,
+    };
+
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setStatusMessage(result.message);
+        // Reset form
+        (e.target as HTMLFormElement).reset();
+      } else {
+        setSubmitStatus("error");
+        setStatusMessage(result.error || "Submission failed");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+      setStatusMessage("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
@@ -81,44 +128,34 @@ export default function WaitlistPage() {
 
       {/* Waitlist Form */}
       <section className="py-16 px-4">
-        <div className="container mx-auto max-w-2xl">
+        <div className="container mx-auto max-w-xl">
           <Card className="bg-zinc-900 border-zinc-800">
             <CardHeader className="text-center pb-8">
               <CardTitle className="text-2xl font-mono font-bold text-white">
                 FREQUENCY REGISTRATION
               </CardTitle>
               <p className="text-zinc-400 font-mono text-sm mt-2">
-                Complete your transmission to join the collective
+                Enter your frequency to join the collective
               </p>
             </CardHeader>
             <CardContent className="space-y-6">
-              <form className="space-y-6" id="waitlist-form">
-                {/* Name Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-mono text-zinc-400 mb-2">
-                      FIRST NAME*
-                    </label>
-                    <Input
-                      name="firstName"
-                      required
-                      placeholder="Enter your first name"
-                      className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-mono text-zinc-400 mb-2">
-                      LAST NAME*
-                    </label>
-                    <Input
-                      name="lastName"
-                      required
-                      placeholder="Enter your last name"
-                      className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 font-mono"
-                    />
-                  </div>
+              {/* Status Messages */}
+              {submitStatus === "success" && (
+                <div className="bg-green-900/20 border border-green-600 rounded-md p-4 text-center">
+                  <p className="text-green-400 font-mono text-sm">
+                    {statusMessage}
+                  </p>
                 </div>
+              )}
+              {submitStatus === "error" && (
+                <div className="bg-red-900/20 border border-red-600 rounded-md p-4 text-center">
+                  <p className="text-red-400 font-mono text-sm">
+                    {statusMessage}
+                  </p>
+                </div>
+              )}
 
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Email */}
                 <div>
                   <label className="block text-sm font-mono text-zinc-400 mb-2">
@@ -129,81 +166,19 @@ export default function WaitlistPage() {
                     type="email"
                     required
                     placeholder="your.frequency@domain.com"
-                    className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 font-mono"
+                    className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 font-mono text-lg py-3"
+                    disabled={isSubmitting}
                   />
-                </div>
-
-                {/* Phone */}
-                <div>
-                  <label className="block text-sm font-mono text-zinc-400 mb-2">
-                    CONTACT CODE
-                  </label>
-                  <Input
-                    name="phone"
-                    type="tel"
-                    placeholder="+1 (555) 000-0000"
-                    className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 font-mono"
-                  />
-                </div>
-
-                {/* Location */}
-                <div>
-                  <label className="block text-sm font-mono text-zinc-400 mb-2">
-                    TRANSMISSION LOCATION*
-                  </label>
-                  <Input
-                    name="location"
-                    required
-                    placeholder="City, State/Country"
-                    className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 font-mono"
-                  />
-                </div>
-
-                {/* Interest Level */}
-                <div>
-                  <label className="block text-sm font-mono text-zinc-400 mb-2">
-                    FREQUENCY PREFERENCE*
-                  </label>
-                  <select
-                    name="preference"
-                    required
-                    className="w-full bg-black border border-zinc-700 text-white font-mono px-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
-                  >
-                    <option value="">SELECT YOUR VIBE</option>
-                    <option value="techno">TECHNO INDUSTRIAL</option>
-                    <option value="minimal">MINIMAL HYPNOTIC</option>
-                    <option value="acid">ACID WAREHOUSE</option>
-                    <option value="experimental">EXPERIMENTAL DARK</option>
-                    <option value="all">ALL FREQUENCIES</option>
-                  </select>
-                </div>
-
-                {/* How did you hear */}
-                <div>
-                  <label className="block text-sm font-mono text-zinc-400 mb-2">
-                    TRANSMISSION SOURCE
-                  </label>
-                  <select
-                    name="source"
-                    className="w-full bg-black border border-zinc-700 text-white font-mono px-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
-                  >
-                    <option value="">HOW DID YOU FIND US?</option>
-                    <option value="friend">FRIEND REFERRAL</option>
-                    <option value="social">SOCIAL FREQUENCY</option>
-                    <option value="event">AT AN EVENT</option>
-                    <option value="artist">ARTIST MENTION</option>
-                    <option value="venue">VENUE CONNECTION</option>
-                    <option value="other">OTHER CHANNEL</option>
-                  </select>
                 </div>
 
                 {/* Submit Button */}
-                <div className="pt-6">
+                <div className="pt-2">
                   <Button
                     type="submit"
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold py-3 text-lg tracking-wider"
+                    disabled={isSubmitting}
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold py-3 text-lg tracking-wider disabled:opacity-50"
                   >
-                    TRANSMIT TO WAITLIST
+                    {isSubmitting ? "TRANSMITTING..." : "TRANSMIT TO WAITLIST"}
                   </Button>
                 </div>
 
