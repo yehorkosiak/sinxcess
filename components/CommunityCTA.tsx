@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+"use client";
+
+import WaitlistForm from "@/components/WaitlistForm";
 
 export default function CommunityCTA() {
   return (
@@ -12,15 +13,16 @@ export default function CommunityCTA() {
           Get exclusive access to sinxcess events, artist interviews, and venue
           intel. Become part of the collective that moves in the shadows.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
-          <Input
-            placeholder="YOUR EMAIL FREQUENCY..."
-            className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 font-mono"
-          />
-          <Button className="bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold px-8 whitespace-nowrap">
-            TRANSMIT
-          </Button>
-        </div>
+
+        <WaitlistForm
+          placeholder="YOUR EMAIL FREQUENCY..."
+          buttonText="TRANSMIT"
+          loadingText="TRANSMITTING..."
+          inputClassName="bg-black"
+          buttonClassName="whitespace-nowrap"
+          className="max-w-md mx-auto mb-4"
+        />
+
         <p className="text-xs text-zinc-500 mt-4 font-mono">
           NO SPAM. ONLY PURE SINXCESS TRANSMISSIONS.
         </p>
