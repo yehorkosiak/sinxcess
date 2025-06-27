@@ -17,7 +17,7 @@ export default function HomePage() {
       image: "/placeholder.svg?height=300&width=400",
       excerpt:
         "Descend into the depths of industrial techno. Raw. Unfiltered. Transcendent.",
-      tags: ["TECHNO", "INDUSTRIAL", "UNDERGROUND"],
+      tags: ["TECHNO", "INDUSTRIAL", "SINXCESS"],
     },
     {
       id: 2,
@@ -212,7 +212,7 @@ export default function HomePage() {
             JOIN THE FREQUENCY
           </h2>
           <p className="text-zinc-400 mb-8 max-w-2xl mx-auto font-mono">
-            Get exclusive access to underground events, artist interviews, and
+            Get exclusive access to sinxcess events, artist interviews, and
             venue intel. Become part of the collective that moves in the
             shadows.
           </p>
@@ -226,7 +226,7 @@ export default function HomePage() {
             </Button>
           </div>
           <p className="text-xs text-zinc-500 mt-4 font-mono">
-            NO SPAM. ONLY PURE UNDERGROUND TRANSMISSIONS.
+            NO SPAM. ONLY PURE SINXCESS TRANSMISSIONS.
           </p>
         </div>
       </section>
@@ -237,7 +237,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <Zap className="h-5 w-5 text-purple-500" />
-              <span className="font-mono font-bold">UNDERGROUND</span>
+              <span className="font-mono font-bold">SINXCESS</span>
             </div>
             <div className="flex space-x-6 text-sm font-mono text-zinc-400">
               <Link
@@ -261,7 +261,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="text-center mt-6 text-xs text-zinc-500 font-mono">
-            © 2024 UNDERGROUND COLLECTIVE. ALL FREQUENCIES RESERVED.
+            © 2024 SINXCESS COLLECTIVE. ALL FREQUENCIES RESERVED.
           </div>
         </div>
       </footer>

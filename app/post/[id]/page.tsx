@@ -20,10 +20,10 @@ export default function PostPage() {
 
 DARK MATTER brings a selection of industrial techno that cuts through consciousness like a blade. Each track carefully chosen to guide the collective through states of transcendence.
 
-The VOID CLUB basement becomes a temple. Strobes pierce the darkness in calculated intervals. The 303 sequences rewire neural pathways. This is underground culture in its purest form.
+The VOID CLUB basement becomes a temple. Strobes pierce the darkness in calculated intervals. The 303 sequences rewire neural pathways. This is sinxcess culture in its purest form.
 
 Entry requires commitment. Leave your surface world identity at the door. Descend into the frequency.`,
-    tags: ["TECHNO", "INDUSTRIAL", "UNDERGROUND"],
+    tags: ["TECHNO", "INDUSTRIAL", "SINXCESS"],
     likes: 47,
     comments: 12,
     shares: 8,
@@ -51,8 +51,7 @@ Entry requires commitment. Leave your surface world identity at the door. Descen
       user: "BASS_CULT",
       avatar: "/placeholder.svg?height=40&width=40",
       time: "6h ago",
-      content:
-        "Basement sessions hit different. This is what underground means.",
+      content: "Basement sessions hit different. This is what sinxcess means.",
     },
   ];
 
@@ -71,7 +70,7 @@ Entry requires commitment. Leave your surface world identity at the door. Descen
             <div className="flex items-center space-x-2">
               <Zap className="h-6 w-6 text-purple-500" />
               <span className="text-xl font-mono font-bold tracking-wider">
-                UNDERGROUND
+                SINXCESS
               </span>
             </div>
           </div>
@@ -231,7 +230,7 @@ Entry requires commitment. Leave your surface world identity at the door. Descen
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <Zap className="h-5 w-5 text-purple-500" />
-              <span className="font-mono font-bold">UNDERGROUND</span>
+              <span className="font-mono font-bold">SINXCESS</span>
             </div>
             <div className="flex space-x-6 text-sm font-mono text-zinc-400">
               <Link
