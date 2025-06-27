@@ -45,7 +45,7 @@ export default function WaitlistPage() {
         setSubmitStatus("error");
         setStatusMessage(result.error || "Submission failed");
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
       setStatusMessage("Network error. Please try again.");
     } finally {
