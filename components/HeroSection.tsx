@@ -28,9 +28,13 @@ export default function HeroSection() {
           </div>
 
           {/* Main title */}
-          <h1 className="text-7xl md:text-9xl font-mono font-black tracking-tighter mb-4 leading-[0.9]">
-            <span className="block text-white">RESONANCE</span>
-            <span className="block text-white">ROOM</span>
+          <h1 className="hidden md:block text-7xl md:text-9xl font-mono font-black tracking-tighter mb-4 leading-[0.9]">
+            <span className="md:block text-white">RESONANCE</span>
+            <span className="md:block text-white">ROOM</span>
+          </h1>
+
+          <h1 className="text-6xl md:hidden font-mono font-black tracking-tighter mb-4 leading-[0.9]">
+            RESON
           </h1>
 
           {/* Zigzag graphic */}
@@ -54,7 +58,7 @@ export default function HeroSection() {
 
           {/* Artists */}
           <div className="space-y-1 mb-12">
-            <p className="text-3xl font-mono font-bold text-white">YULZ</p>
+            <p className="text-2xl font-mono text-white">YULZ</p>
             <p className="text-2xl font-mono text-zinc-300">NASTYA MURAVYOVA</p>
             <p className="text-2xl font-mono text-zinc-300">DMITRY KUZNETSOV</p>
           </div>
