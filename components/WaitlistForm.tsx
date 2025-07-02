@@ -23,18 +23,15 @@ export default function WaitlistForm({
   inputClassName = "",
   showStatusMessages = true,
 }: WaitlistFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setSubmitStatus("idle");
     setIsLoading(true);
 
@@ -56,7 +53,6 @@ export default function WaitlistForm({
 
       if (response.ok) {
         setSubmitStatus("success");
-        setIsSuccess(true);
         setStatusMessage(result.message);
         // Reset form
         (e.target as HTMLFormElement).reset();
@@ -68,7 +64,6 @@ export default function WaitlistForm({
       setSubmitStatus("error");
       setStatusMessage("Network error. Please try again.");
     } finally {
-      setIsSubmitting(false);
       setIsLoading(false);
     }
   };

@@ -1,6 +1,3 @@
-import { Zap } from "lucide-react";
-import Link from "next/link";
-
 export default function Footer() {
   return (
     <footer className="border-t border-[#3a2020] bg-[#1a0f0f] py-12">
