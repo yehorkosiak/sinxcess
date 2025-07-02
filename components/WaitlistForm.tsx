@@ -89,7 +89,7 @@ export default function WaitlistForm({
       )}
 
       <form onSubmit={handleSubmit} className={cn("space-y-2", className)}>
-        <div className="flex gap-2">
+        <div className="md:flex gap-2">
           <Input
             type="email"
             placeholder={placeholder}
@@ -105,7 +105,7 @@ export default function WaitlistForm({
           <Button
             type="submit"
             disabled={isLoading}
-            className="bg-[#ff3366] hover:bg-[#ff6b6b] text-white font-mono tracking-wider uppercase"
+            className="bg-[#ff3366] hover:bg-[#ff6b6b] text-white font-mono tracking-wider uppercase w-full md:w-auto"
           >
             {isLoading ? loadingText : buttonText}
           </Button>
