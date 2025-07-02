@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface WaitlistFormProps {
   placeholder?: string;
@@ -20,7 +21,6 @@ export default function WaitlistForm({
   loadingText = "TRANSMITTING...",
   className = "",
   inputClassName = "",
-  buttonClassName = "",
   showStatusMessages = true,
 }: WaitlistFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,11 +28,16 @@ export default function WaitlistForm({
     "idle" | "success" | "error"
   >("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus("idle");
+    setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const data = {
@@ -52,18 +57,20 @@ export default function WaitlistForm({
 
       if (response.ok) {
         setSubmitStatus("success");
-        setStatusMessage(result.message);
+        setIsSuccess(true);
+        setMessage(result.message);
         // Reset form
         (e.target as HTMLFormElement).reset();
       } else {
         setSubmitStatus("error");
-        setStatusMessage(result.error || "Submission failed");
+        setMessage(result.error || "Submission failed");
       }
     } catch {
       setSubmitStatus("error");
-      setStatusMessage("Network error. Please try again.");
+      setMessage("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
@@ -81,25 +88,38 @@ export default function WaitlistForm({
         </div>
       )}
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-      >
-        <Input
-          name="email"
-          type="email"
-          required
-          placeholder={placeholder}
-          className={`bg-zinc-900/80 border-zinc-700 text-white placeholder:text-zinc-500 font-mono backdrop-blur-sm ${inputClassName}`}
-          disabled={isSubmitting}
-        />
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className={`bg-purple-600 hover:bg-purple-700 text-white font-mono font-bold px-8 disabled:opacity-50 ${buttonClassName}`}
-        >
-          {isSubmitting ? loadingText : buttonText}
-        </Button>
+      <form onSubmit={handleSubmit} className={cn("space-y-2", className)}>
+        <div className="flex gap-2">
+          <Input
+            type="email"
+            placeholder={placeholder}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={cn(
+              "flex-1 bg-[#2a1515] border-[#3a2020] text-white placeholder:text-zinc-500 font-mono tracking-wider",
+              inputClassName
+            )}
+            disabled={isLoading}
+          />
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="bg-[#ff3366] hover:bg-[#ff6b6b] text-white font-mono tracking-wider uppercase"
+          >
+            {isLoading ? loadingText : buttonText}
+          </Button>
+        </div>
+        {message && (
+          <p
+            className={cn(
+              "text-sm font-mono tracking-wider",
+              isSuccess ? "text-[#ff6b6b]" : "text-red-500"
+            )}
+          >
+            {message}
+          </p>
+        )}
       </form>
     </div>
   );
