@@ -31,7 +31,6 @@ export default function WaitlistForm({
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,16 +57,16 @@ export default function WaitlistForm({
       if (response.ok) {
         setSubmitStatus("success");
         setIsSuccess(true);
-        setMessage(result.message);
+        setStatusMessage(result.message);
         // Reset form
         (e.target as HTMLFormElement).reset();
       } else {
         setSubmitStatus("error");
-        setMessage(result.error || "Submission failed");
+        setStatusMessage(result.error || "Submission failed");
       }
     } catch {
       setSubmitStatus("error");
-      setMessage("Network error. Please try again.");
+      setStatusMessage("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
       setIsLoading(false);
@@ -78,8 +77,8 @@ export default function WaitlistForm({
     <div className={className}>
       {/* Status Messages */}
       {showStatusMessages && submitStatus === "success" && (
-        <div className="bg-purple-900/20 border border-purple-600 rounded-md p-4 text-center max-w-md mx-auto mb-6">
-          <p className="text-purple-400 font-mono text-sm">{statusMessage}</p>
+        <div className="bg-white-900/20 border border-white-600 rounded-md p-4 text-center max-w-md mx-auto mb-6">
+          <p className="text-white-400 font-mono text-sm">{statusMessage}</p>
         </div>
       )}
       {showStatusMessages && submitStatus === "error" && (
@@ -92,6 +91,7 @@ export default function WaitlistForm({
         <div className="md:flex gap-2">
           <Input
             type="email"
+            name="email"
             placeholder={placeholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -110,16 +110,6 @@ export default function WaitlistForm({
             {isLoading ? loadingText : buttonText}
           </Button>
         </div>
-        {message && (
-          <p
-            className={cn(
-              "text-sm font-mono tracking-wider",
-              isSuccess ? "text-[#ff6b6b]" : "text-red-500"
-            )}
-          >
-            {message}
-          </p>
-        )}
       </form>
     </div>
   );
